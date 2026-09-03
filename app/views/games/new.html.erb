@@ -1,0 +1,11 @@
+<% content_for :title, "新しい試合" %>
+
+<h1>新しい試合</h1>
+
+<%= render "form", game: @game %>
+
+<br>
+
+<div>
+  <%= link_to "Back", games_path %>
+</div>

@@ -1,0 +1,42 @@
+<h1>試合一覧</h1>
+
+<%= form_with url: matches_path, method: :get, local: true do |form| %>
+
+  <%= form.text_field :keyword,
+      value: params[:keyword],
+      placeholder: "試合名・高校名・選手名で検索" %>
+
+  <%= form.submit "検索" %>
+
+<% end %>
+
+<% @matches.each do |match| %>
+
+  <div>
+
+  <%= link_to match.title, match %>
+    (<%= match.games.count %>試合）
+
+  </div>
+  <p>
+    <strong>試合名:</strong>
+    <%= match.title %>
+  </p>
+
+  <p>
+    <strong>コート:</strong>
+    <%= match.court %>
+  </p>
+
+<strong>日付:</strong>
+<%= match.date&.strftime("%Y/%m/%d") %>
+
+  <hr>
+  
+  <%= link_to "試合を見る", match %>
+
+  <hr>
+
+<% end %>
+
+<%= link_to "新しい試合", new_match_path %>

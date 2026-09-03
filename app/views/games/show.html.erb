@@ -1,0 +1,597 @@
+<h1>スコア入力</h1>
+
+<% if @game.p_result.present? || @game.q_result.present? %>
+
+  <%= render "result_table", game: @game %>
+
+<% else %>
+
+<%
+play_codes = {
+  "サーブ" => %w[
+    SA
+    DF
+  ],
+
+  "レシーブ" => %w[
+    FRN
+    FrN
+    FRBO
+    FrSO
+    BRBO
+    BrSO
+    FRNinp
+    FrNinp
+    FRP
+    FrP
+    FRTP
+    FrtP
+  ],
+
+  "ストローク" => %w[
+    FStP
+    FStBO
+    FStSO
+    FStNinP
+    FStN
+    FStM
+
+    BStP
+    BStBO
+    BStSO
+    BStNinP
+    BStN
+    BStM
+  ],
+
+  "ボレー" => %w[
+    FLVP
+    FLVN
+    FLVBO
+    FLVSO
+    FLVNinP
+
+    BLVP
+    BLVN
+    BLVBO
+    BLVSO
+    BLVNinP
+
+    FVP
+    FVN
+    FVBO
+    FVSO
+    FVNinP
+
+    BVP
+    BVN
+    BVBO
+    BVSO
+    BVNinP
+  ],
+
+  "スマッシュ" => %w[
+    smP
+    smN
+    smBO
+    smSO
+    smNinP
+  ],
+
+  "その他" => [
+    "フォローミス",
+    "ボディ",
+    "ダイレクト"
+  ]
+}
+%>
+
+<%
+  p_games = @game.points.where(winner: "RESULT")
+                        .where("p_gamescore > q_gamescore")
+                        .count
+
+  q_games = @game.points.where(winner: "RESULT")
+                        .where("q_gamescore > p_gamescore")
+                        .count
+%>
+
+
+<% if p_games == 3 && q_games == 3 %>
+  <h1>ファイナルゲーム</h1>
+<% end %>
+
+<div class="match-header">
+
+  <div class="team-side">
+    <div class="school"><%= @game.p_school %></div>
+    <div class="players">
+      <%= @game.p_front %>・<%= @game.p_back %>
+    </div>
+  </div>
+
+<%
+  p_display =
+    case p_games
+    when 4 then "④"
+    else p_games
+    end
+
+  q_display =
+    case q_games
+    when 4 then "④"
+    else q_games
+    end
+%>
+
+<div class="vs-mark">
+  <span class="game-count"><%= p_display %></span>
+  -
+  <span class="game-count"><%= q_display %></span>
+</div>
+
+  <div class="team-side">
+    <div class="school"><%= @game.q_school %></div>
+    <div class="players">
+      <%= @game.q_front %>・<%= @game.q_back %>
+    </div>
+  </div>
+
+</div>
+
+<div class="score-board">
+  <div>
+    P<br>
+    <%= @game.p_score || 0 %>
+  </div>
+
+  <div>
+    Q<br>
+    <%= @game.q_score || 0 %>
+  </div>
+</div>
+
+
+<div class="buttons">
+
+  <% if @game.p_result.present? || @game.q_result.present? %>
+
+    <%= render "result_table", game: @game %>
+
+  <% else %>
+
+    <h2>誰のプレー？</h2>
+
+<div class="player-select">
+
+  <!-- P側 後衛（左）→ 前衛（右） -->
+  <%= link_to @game.p_back,
+      game_path(@game, player: @game.p_back),
+      class: "player-btn" %>
+
+  <%= link_to @game.p_front,
+      game_path(@game, player: @game.p_front),
+      class: "player-btn" %>
+
+  <!-- Q側 後衛（左）→ 前衛（右） -->
+  <%= link_to @game.q_back,
+      game_path(@game, player: @game.q_back),
+      class: "player-btn" %>
+
+  <%= link_to @game.q_front,
+      game_path(@game, player: @game.q_front),
+      class: "player-btn" %>
+
+</div>
+
+
+  <% end %>
+
+</div>
+
+<h2>サーブ</h2>
+
+<div class="player-select">
+
+  <%= link_to "ファースト",
+      game_path(
+        @game,
+        player: params[:player],
+        serve: "first"
+      ),
+      class: "player-btn",
+      data: { turbo: false } %>
+
+  <%= link_to "セカンド",
+      game_path(
+        @game,
+        player: params[:player],
+        serve: "second"
+      ),
+      class: "player-btn",
+      data: { turbo: false } %>
+
+</div>
+
+
+<% if params[:serve].present? %>
+
+
+    <h2>カテゴリー</h2>
+
+    <div class="player-select">
+
+      <%= link_to "サーブ",
+        game_path(
+          @game,
+          player: params[:player],
+          serve: params[:serve],
+          category: "サーブ"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+      <%= link_to "レシーブ",
+        game_path(
+          @game,
+          player: params[:player],
+          serve: params[:serve],
+          category: "レシーブ"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+      <%= link_to "ストローク",
+        game_path(
+          @game,
+          player: params[:player],
+          serve: params[:serve],
+          category: "ストローク"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+      <%= link_to "ボレー",
+        game_path(
+          @game,
+          player: params[:player],
+          serve: params[:serve],
+          category: "ボレー"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+      <%= link_to "スマッシュ",
+        game_path(
+          @game,
+          player: params[:player],
+          serve: params[:serve],
+          category: "スマッシュ"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+      <%= link_to "その他",
+        game_path(
+          @game,
+          player: params[:player],
+          serve: params[:serve],
+          category: "その他"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+    </div>
+
+<% end %>
+
+<% if params[:category].present? %>
+
+  <h2><%= params[:category] %></h2>
+
+  <div class="player-select">
+
+    <% play_codes[params[:category]].each do |code| %>
+
+    <%
+      display_code =
+        if code == "SA" ||
+          code.end_with?("P") ||
+          code.end_with?("NinP")
+          "◯#{code}"
+        else
+          "✕#{code}"
+        end
+    %>
+
+    <%= button_to display_code,
+        play_game_path(@game),
+        method: :post,
+        params: {
+          player: params[:player],
+          serve: params[:serve],
+          code: code
+        },
+        class: "player-btn",
+        data: { turbo: false } %>
+    <% end %>
+
+  </div>
+
+<% end %>
+
+<div class="history">
+<h2>現在のゲーム</h2>
+<%
+current_points = @game.points
+                      .where(game_number: @game.current_game_number)
+                      .where.not(winner: "RESULT")
+                      .order(:created_at)
+%>
+<div style="font-size:40px;">
+  <% @game.points
+          .where(game_number: @game.current_game_number)
+          .where.not(winner: "RESULT")
+          .each do |point| %>
+
+    <% if point.winner == "P" %>
+      ○
+    <% else %>
+      ×
+    <% end %>
+
+  <% end %>
+</div>
+
+<div class="player-box">
+  <h3>P後衛 <%= @game.p_back %></h3>
+  <% points = @game.points.where(player: @game.p_back)
+                          .where(game_number: @game.current_game_number)
+                          .where.not(winner: "RESULT")
+                          .order(:created_at) %>
+<%
+all_points = @game.points
+                  .where(game_number: @game.current_game_number)
+                  .where.not(winner: "RESULT")
+                  .order(:created_at)
+%>
+
+<% points.each do |point| %>
+
+  <%
+    number = all_points.index(point) + 1
+  if point.serve_number == "first"
+    marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+    mark = marks[number - 1] || number
+  else
+    mark = number
+  end
+
+    display_code =
+      if point.play_code == "SA" ||
+         point.play_code.end_with?("P") ||
+         point.play_code.end_with?("NinP")
+        "◯#{point.play_code}"
+      else
+        "✕#{point.play_code}"
+      end
+  %>
+
+  <div><%= mark %><%= display_code %></div>
+
+<% end %>
+</div>
+
+<div class="player-box">
+  <h3>P前衛 <%= @game.p_front %></h3>
+  <% points = @game.points.where(player: @game.p_front)
+                          .where(game_number: @game.current_game_number)
+                          .where.not(winner: "RESULT")
+                          .order(:created_at) %>
+<%
+all_points = @game.points
+                  .where(game_number: @game.current_game_number)
+                  .where.not(winner: "RESULT")
+                  .order(:created_at)
+%>
+
+<% points.each do |point| %>
+
+  <%
+    number = all_points.index(point) + 1
+ if point.serve_number == "first"
+  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+  mark = marks[number - 1] || number
+else
+  mark = number
+end
+    display_code =
+      if point.play_code == "SA" ||
+         point.play_code.end_with?("P") ||
+         point.play_code.end_with?("NinP")
+        "◯#{point.play_code}"
+      else
+        "✕#{point.play_code}"
+      end
+  %>
+
+  <div><%= mark %><%= display_code %></div>
+
+<% end %>
+</div>
+
+<div class="player-box">
+  <h3>Q後衛 <%= @game.q_back %></h3>
+  <% points = @game.points.where(player: @game.q_back)
+                          .where(game_number: @game.current_game_number)
+                          .where.not(winner: "RESULT")
+                          .order(:created_at) %>
+<%
+all_points = @game.points
+                  .where(game_number: @game.current_game_number)
+                  .where.not(winner: "RESULT")
+                  .order(:created_at)
+%>
+
+<% points.each do |point| %>
+
+  <%
+    number = all_points.index(point) + 1
+ if point.serve_number == "first"
+  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+  mark = marks[number - 1] || number
+else
+  mark = number
+end
+
+    display_code =
+      if point.play_code == "SA" ||
+         point.play_code.end_with?("P") ||
+         point.play_code.end_with?("NinP")
+        "◯#{point.play_code}"
+      else
+        "✕#{point.play_code}"
+      end
+  %>
+
+  <div><%= mark %><%= display_code %></div>
+
+<% end %>
+</div>
+
+<div class="player-box">
+  <h3>Q前衛 <%= @game.q_front %></h3>
+  <% points = @game.points.where(player: @game.q_front)
+                          .where(game_number: @game.current_game_number)
+                          .where.not(winner: "RESULT")
+                          .order(:created_at) %>
+<%
+all_points = @game.points
+                  .where(game_number: @game.current_game_number)
+                  .where.not(winner: "RESULT")
+                  .order(:created_at)
+%>
+
+<% points.each do |point| %>
+
+  <%
+    number = all_points.index(point) + 1
+if point.serve_number == "first"
+  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+  mark = marks[number - 1] || number
+else
+  mark = number
+end
+
+    display_code =
+      if point.play_code == "SA" ||
+         point.play_code.end_with?("P") ||
+         point.play_code.end_with?("NinP")
+        "◯#{point.play_code}"
+      else
+        "✕#{point.play_code}"
+      end
+  %>
+
+  <div><%= mark %><%= display_code %></div>
+
+<% end %>
+</div>
+
+
+<h2>ゲーム結果</h2>
+
+<% @game.points.where(winner: "RESULT").each do |result| %>
+
+  <div class="result-row">
+
+    <span class="game-no">
+      <%= result.game_number %>ゲーム
+    </span>
+
+    <span class="point-history">
+      <% @game.points.where(game_number: result.game_number)
+                     .where.not(winner: "RESULT")
+                     .each do |point| %>
+
+        <%= point.winner == "P" ? "○" : "×" %>
+
+      <% end %>
+    </span>
+
+    <span class="game-score">
+
+      <%
+        if result.p_gamescore > result.q_gamescore
+
+          p_display =
+            case result.p_gamescore
+            when 4 then "④"
+            when 5 then "⑤"
+            when 6 then "⑥"
+            when 7 then "⑦"
+            when 8 then "⑧"
+            when 9 then "⑨"
+            when 10 then "⑩"
+            else result.p_gamescore
+            end
+
+          q_display = result.q_gamescore
+
+        else
+
+          p_display = result.p_gamescore
+
+          q_display =
+            case result.q_gamescore
+            when 4 then "④"
+            when 5 then "⑤"
+            when 6 then "⑥"
+            when 7 then "⑦"
+            when 8 then "⑧"
+            when 9 then "⑨"
+            when 10 then "⑩"
+            else result.q_gamescore
+            end
+
+        end
+      %>
+
+      <%= p_display %>-<%= q_display %>
+
+    </span>
+
+  </div>
+
+<% end %>
+
+
+
+<% if params[:code].present? %>
+
+  <h2>
+    コード：
+    <%= params[:code] %>
+  </h2>
+
+<% end %>
+
+<%= button_to "← 1本戻る",
+      undo_game_path(@game),
+      method: :delete,
+      class: "undo-btn" %>
+
+<hr>
+
+<div style="text-align:center; margin:30px 0;">
+  <%= link_to "試合詳細へ戻る",
+      match_path(@game.match) %>
+</div>
+
+<br><br>
+
+<%= link_to "次の試合を追加",
+    players_match_path(@game.match),
+    class: "button" %>
+
+<% end %>

@@ -1,0 +1,77 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @match %>
+
+<div>
+  <%= link_to "編集", edit_match_path(@match) %> |
+  <%= link_to "試合一覧に戻る", matches_path %>
+
+  <%= button_to "削除", @match, method: :delete %>
+</div>
+
+<%= link_to "次の試合を追加",
+    players_match_path(@match),
+    class: "button" %>
+
+<div class="result-title-area">
+
+  <h2>試合結果</h2>
+
+  <div class="win-loss">
+    <span class="win">
+      <%= @wins %>勝
+    </span>
+
+    <span class="loss">
+      <%= @losses %>敗
+    </span>
+  </div>
+
+</div>
+
+<div class="search-area">
+  <%= form_with url: match_path(@match),
+                method: :get,
+                local: true do |f| %>
+
+    <%= f.text_field :q,
+          value: params[:q],
+          placeholder: "学校名・選手名で検索",
+          class: "search-input" %>
+
+    <%= f.submit "検索", class: "search-button" %>
+
+  <% end %>
+</div>
+
+<% @games.each do |game| %>
+
+  <div class="game-row">
+
+    <div class="game-info">
+
+      <%= game.p_school %>
+      <%= game.p_back %>・<%= game.p_front %>
+
+      vs
+
+      <%= game.q_back %>・<%= game.q_front %>
+      (<%= game.q_school %>)
+
+      （<%= game.p_result || 0 %> - <%= game.q_result || 0 %>）
+    </div>
+
+    <div class="game-actions">
+      <%= link_to "詳細", game_path(game) %>
+
+      <%= button_to "削除",
+          game_path(game),
+          method: :delete,
+          data: { turbo_confirm: "この試合を削除しますか？" } %>
+    </div>
+
+  </div>
+
+<% end %>
+
+

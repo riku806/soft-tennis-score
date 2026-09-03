@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game: one
+  winner: MyString
+  kind: MyString
+
+two:
+  game: two
+  winner: MyString
+  kind: MyString

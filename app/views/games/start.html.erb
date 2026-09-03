@@ -1,0 +1,17 @@
+<h1>サーブ・レシーブ</h1>
+
+<div class="player-select">
+
+  <%= button_to "サーブから開始",
+      set_start_game_path(@game),
+      method: :patch,
+      params: { start_type: "serve" },
+      class: "player-btn" %>
+
+  <%= button_to "レシーブから開始",
+      set_start_game_path(@game),
+      method: :patch,
+      params: { start_type: "receive" },
+      class: "player-btn" %>
+
+</div>

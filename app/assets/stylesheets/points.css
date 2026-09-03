@@ -1,0 +1,196 @@
+/* ==========================
+   points.css（スマホ専用）
+========================== */
+
+.point-container{
+  width:95%;
+  max-width:500px;
+  margin:20px auto;
+}
+
+/* スコア表示 */
+
+.score-board{
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.score-side{
+  text-align:center;
+}
+
+.team-name{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.score{
+  font-size:48px;
+  font-weight:bold;
+  color:#d60000;
+}
+
+/* 選手選択 */
+
+.player-select{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.player-btn{
+  height:60px;
+  border:none;
+  border-radius:10px;
+  background:#1976d2;
+  color:#fff;
+  font-size:17px;
+  font-weight:bold;
+}
+
+/* プレーコード */
+
+.play-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.play-btn{
+  height:55px;
+  border:none;
+  border-radius:10px;
+  background:#fff;
+  font-size:15px;
+  font-weight:bold;
+  box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.play-btn:active{
+  background:#1976d2;
+  color:#fff;
+}
+
+/* サーブ */
+
+.serve{
+  background:#42a5f5;
+  color:#fff;
+}
+
+
+
+/* その他 */
+
+.other{
+  background:#9e9e9e;
+  color:#fff;
+}
+
+/* 現在選択 */
+
+.selected{
+  outline:3px solid #ff9800;
+}
+
+/* 履歴 */
+
+.history{
+  margin-top:20px;
+  background:#fff;
+  border-radius:12px;
+  padding:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.history-title{
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.history-row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #eee;
+  font-size:15px;
+}
+
+.history-row:last-child{
+  border-bottom:none;
+}
+
+/* ボタン */
+
+.bottom-buttons{
+  margin-top:20px;
+}
+
+.back-btn{
+  width:100%;
+  height:55px;
+  background:#1976d2;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.undo-btn{
+  width:100%;
+  height:55px;
+  margin-top:10px;
+  background:#ff9800;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.finish-btn{
+  width:100%;
+  height:55px;
+  margin-top:10px;
+  background:#43a047;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* スマホ微調整 */
+
+@media (max-width:480px){
+
+  .score{
+    font-size:42px;
+  }
+
+  .player-btn{
+    height:55px;
+    font-size:16px;
+  }
+
+  .play-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .play-btn{
+    height:50px;
+    font-size:14px;
+  }
+
+}
