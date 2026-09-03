@@ -33,7 +33,7 @@ class PointsController < ApplicationController
       winner: params[:winner],
       game_number: @game.current_game_number,
       player: params[:player],
-      play_code: params[:code]
+      play_code: params[:code],
       point_number: next_point_number
     )
 
