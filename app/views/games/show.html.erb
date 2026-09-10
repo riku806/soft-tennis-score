@@ -151,6 +151,59 @@ play_codes = {
   </div>
 </div>
 
+<h2>サーブを誰が打つ？</h2>
+
+<div class="player-select">
+
+  <%= link_to @game.p_back,
+      game_path(@game, server: @game.p_back),
+      class: "player-btn",
+      data: { turbo: false } %>
+
+  <%= link_to @game.p_front,
+      game_path(@game, server: @game.p_front),
+      class: "player-btn",
+      data: { turbo: false } %>
+
+  <%= link_to @game.q_back,
+      game_path(@game, server: @game.q_back),
+      class: "player-btn",
+      data: { turbo: false } %>
+
+  <%= link_to @game.q_front,
+      game_path(@game, server: @game.q_front),
+      class: "player-btn",
+      data: { turbo: false } %>
+
+</div>
+
+<% if params[:server].present? %>
+
+  <h2>サーブ</h2>
+
+  <div class="player-select">
+
+    <%= link_to "ファースト",
+        game_path(
+          @game,
+          server: params[:server],
+          serve: "first"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+    <%= link_to "セカンド",
+        game_path(
+          @game,
+          server: params[:server],
+          serve: "second"
+        ),
+        class: "player-btn",
+        data: { turbo: false } %>
+
+  </div>
+
+<% end %>
 
 <div class="buttons">
 
@@ -164,55 +217,51 @@ play_codes = {
 
 <div class="player-select">
 
-  <!-- P側 後衛（左）→ 前衛（右） -->
+  <!-- P側 後衛 -->
   <%= link_to @game.p_back,
-      game_path(@game, player: @game.p_back),
-      class: "player-btn" %>
+      game_path(
+        @game,
+        server: params[:server],
+        serve: params[:serve],
+        player: @game.p_back
+      ),
+      class: "player-btn",
+      data: { turbo: false } %>
 
+  <!-- P側 前衛 -->
   <%= link_to @game.p_front,
-      game_path(@game, player: @game.p_front),
-      class: "player-btn" %>
+      game_path(
+        @game,
+        server: params[:server],
+        serve: params[:serve],
+        player: @game.p_front
+      ),
+      class: "player-btn",
+      data: { turbo: false } %>
 
-  <!-- Q側 後衛（左）→ 前衛（右） -->
+  <!-- Q側 後衛 -->
   <%= link_to @game.q_back,
-      game_path(@game, player: @game.q_back),
-      class: "player-btn" %>
+      game_path(
+        @game,
+        server: params[:server],
+        serve: params[:serve],
+        player: @game.q_back
+      ),
+      class: "player-btn",
+      data: { turbo: false } %>
 
+  <!-- Q側 前衛 -->
   <%= link_to @game.q_front,
-      game_path(@game, player: @game.q_front),
-      class: "player-btn" %>
-
-</div>
-
-
-  <% end %>
-
-</div>
-
-<h2>サーブ</h2>
-
-<div class="player-select">
-
-  <%= link_to "ファースト",
       game_path(
         @game,
-        player: params[:player],
-        serve: "first"
-      ),
-      class: "player-btn",
-      data: { turbo: false } %>
-
-  <%= link_to "セカンド",
-      game_path(
-        @game,
-        player: params[:player],
-        serve: "second"
+        server: params[:server],
+        serve: params[:serve],
+        player: @game.q_front
       ),
       class: "player-btn",
       data: { turbo: false } %>
 
 </div>
-
 
 <% if params[:serve].present? %>
 
