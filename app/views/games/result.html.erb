@@ -1,0 +1,9 @@
+<h1>試合結果</h1>
+
+<%= render "result_table", game: @game %>
+
+<div style="text-align:center; margin:30px 0;">
+  <%= link_to "スコア入力に戻る",
+      game_path(@game),
+      class: "button" %>
+</div>

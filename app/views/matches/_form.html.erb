@@ -1,0 +1,39 @@
+<%= form_with(model: match) do |form| %>
+
+  <% if match.errors.any? %>
+    <div style="color: red">
+      <h2>
+        <%= pluralize(match.errors.count, "error") %>
+        prohibited this match from being saved:
+      </h2>
+
+      <ul>
+        <% match.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, "試合名", style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :court, "場所", style: "display: block" %>
+    <%= form.text_field :court %>
+  </div>
+
+<div>
+  <%= form.label :date, "日付" %><br>
+  <%= form.date_field :date %>
+</div>
+
+  <hr>
+  
+  <div>
+    <%= form.submit match.new_record? ? "試合作成" : "更新する" %>
+  </div>
+
+<% end %>

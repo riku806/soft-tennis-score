@@ -1,0 +1,299 @@
+<div class="result-summary">
+
+  <div class="history-area">
+
+<div class="match-header">
+
+  <div class="team-side">
+    <div class="school"><%= game.p_school %></div>
+    <div class="players">
+      <%= game.p_back %>・<%= game.p_front %>
+    </div>
+  </div>
+
+  <div class="center-result">
+    <div class="score">
+      <%= game.p_result %> - <%= game.q_result %>
+    </div>
+  </div>
+
+  <div class="team-side">
+    <div class="school"><%= game.q_school %></div>
+    <div class="players">
+      <%= game.q_back %>・<%= game.q_front %>
+    </div>
+  </div>
+
+</div>
+
+    <% (1...game.current_game_number).each do |game_no| %>
+
+      <div class="history-row">
+
+        <span class="game-label">
+          G<%= game_no %>
+        </span>
+
+        <span class="history-marks">
+
+          <% game.points
+                 .where(game_number: game_no)
+                 .where.not(winner: "RESULT")
+                 .order(:created_at)
+                 .each do |point| %>
+
+            <%= point.winner == "P" ? "○" : "×" %>
+
+          <% end %>
+
+        </span>
+
+        <% result = game.points.find_by(
+             winner: "RESULT",
+             game_number: game_no
+           ) %>
+
+        <% if result %>
+
+          <span class="game-score">
+            <%= result.p_gamescore %>-<%= result.q_gamescore %>
+          </span>
+
+        <% end %>
+
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>
+
+<h2 style="text-align:center;">
+  試合結果
+</h2>
+
+<table class="result-table">
+
+  <tr>
+
+    <th>
+      P後衛<br>
+      <%= game.p_back %>
+    </th>
+
+    <th>
+      P前衛<br>
+      <%= game.p_front %>
+    </th>
+
+    <th>
+      Q後衛<br>
+      <%= game.q_back %>
+    </th>
+
+    <th>
+      Q前衛<br>
+      <%= game.q_front %>
+    </th>
+
+  </tr>
+
+  <tr>
+
+  <% [
+  game.p_back,
+  game.p_front,
+  game.q_back,
+  game.q_front
+].each do |player| %>
+
+<% player_points = game.points
+                       .where(server: player)
+                       .where.not(winner: "RESULT") %>
+
+<%
+# この選手がサーバーだったポイント
+server_points = game.points
+                    .where(server: player)
+                    .where.not(winner: "RESULT")
+
+# ファーストサーブを打った回数（＝サーブ回数）
+first_total = server_points.count
+
+# ファーストサーブ成功回数
+first_in = server_points.where(serve_number: "first").count
+
+# この選手がP側かQ側か
+side =
+  if [game.p_back, game.p_front].include?(player)
+    "P"
+  else
+    "Q"
+  end
+
+# ファーストが入って得点した本数
+first_point = server_points.count do |point|
+  point.serve_number == "first" &&
+  point.winner == side
+end
+
+# この選手が打った全プレー
+player_points = game.points
+                    .where(player: player)
+                    .where.not(winner: "RESULT")
+
+# ポイント数
+point_count = player_points.count do |point|
+  point.play_code == "SA" ||
+  point.play_code.end_with?("P") ||
+  point.play_code.end_with?("NinP")
+end
+
+# ミス数
+miss_count = player_points.count - point_count
+%>
+
+
+      <td>
+
+        <div class="first-serve">
+          サーブ確率<br>
+          <strong><%= first_point %>/<%= first_in %>/<%= first_total %></strong>
+        </div>
+
+        <br>
+
+        <div class="player-total">
+          ポイント：<%= point_count %><br>
+          ミス：<%= miss_count %>
+        </div>
+
+      </td>
+
+    <% end %>
+
+  </tr>
+
+<% (1...game.current_game_number).each do |game_no| %>
+
+  <tr>
+
+    <% [
+      game.p_back,
+      game.p_front,
+      game.q_back,
+      game.q_front
+    ].each do |player| %>
+
+      <td>
+
+        <strong>G<%= game_no %></strong><br>
+
+        <%
+game_server_points = game.points
+                         .where(server: player)
+                         .where(game_number: game_no)
+                         .where.not(winner: "RESULT")
+
+serve_total = game_server_points.count
+
+first_in = game_server_points.where(serve_number: "first").count
+
+side =
+  if [game.p_back, game.p_front].include?(player)
+    "P"
+  else
+    "Q"
+  end
+
+first_point = game_server_points.count do |point|
+  point.serve_number == "first" &&
+  point.winner == side
+end
+%>
+
+<% if serve_total > 0 %>
+  <div class="first-serve-game">
+    ファースト<br>
+    <strong><%= first_point %>/<%= first_in %>/<%= serve_total %></strong>
+  </div>
+  <br>
+<% end %>
+
+<br>
+
+        <%
+          points = game.points
+                       .where(player: player)
+                       .where(game_number: game_no)
+                       .where.not(winner: "RESULT")
+                       .order(:created_at)
+
+          all_points = game.points
+                           .where(game_number: game_no)
+                           .where.not(winner: "RESULT")
+                           .order(:created_at)
+        %>
+
+        <% points.each do |point| %>
+
+          <%
+            number = all_points.index(point).to_i + 1
+
+            if point.serve_number == "first"
+              marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+              mark = marks[number - 1] || number.to_s
+            else
+              mark = number.to_s
+            end
+
+            point_play = point.play_code.to_s
+
+            point_get =
+              point_play == "SA" ||
+              point_play.end_with?("P") ||
+              point_play.end_with?("NinP")
+              
+          %>
+
+         <%
+point_get =
+  point_play == "SA" ||
+  point_play.end_with?("P") ||
+  point_play.end_with?("NinP")
+%>
+
+<div class="play-row <%= point_get ? "point" : "miss" %>">
+
+  <span class="play-mark">
+    <%= mark %>
+  </span>
+
+  <span class="play-result">
+    <%= point_get ? "◯" : "✕" %>
+  </span>
+
+  <span class="play-code">
+    <%= point_play %>
+  </span>
+
+</div>
+
+        <% end %>
+
+      </td>
+
+    <% end %>
+
+  </tr>
+
+<% end %>
+
+</table>
+
+<div style="text-align:center; margin:30px 0;">
+  <%= link_to "試合詳細へ戻る",
+      match_path(game.match),
+      class: "button" %>
+</div>

@@ -1,0 +1,23 @@
+<h1>試合一覧</h1>
+
+<%= link_to "新しい試合", new_game_path %>
+
+<hr>
+
+<% @games.each do |game| %>
+
+  <div style="margin-bottom: 20px;">
+
+    <%= link_to "試合 #{game.id}",
+        game_path(game) %>
+
+    <%= button_to "削除",
+        game_path(game),
+        method: :delete,
+        data: {
+          turbo_confirm: "本当に削除しますか？"
+        } %>
+
+  </div>
+
+<% end %>
