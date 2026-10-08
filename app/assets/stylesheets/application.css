@@ -155,3 +155,279 @@ img{
 #result-type-area .select-btn {
   text-align: left;
 }
+
+/* プレーコードの空白をなくす */
+
+#code-area .player-select {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+  margin: 0;
+}
+
+/* button_to が作る form */
+#code-area .player-select form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 非表示のボタンを入れているformも消す */
+#code-area .player-select form:has(.code-btn[style*="display: none"]) {
+  display: none !important;
+}
+
+/* プレーコードボタン */
+#code-area .code-btn {
+  width: 100%;
+  min-height: 55px;
+  margin: 0;
+  padding: 6px 4px;
+  box-sizing: border-box;
+}
+
+/* 試合一覧 */
+
+.match-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 15px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.match-card h2 {
+  margin: 0 0 15px;
+  font-size: 22px;
+}
+
+.match-count {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.match-card p {
+  margin: 8px 0;
+  font-size: 17px;
+}
+
+.match-view-button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  background: #1976d2;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 13px;
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.new-match-button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  background: #1976d2;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 13px;
+  margin: 20px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* =========================
+   試合詳細ページ
+   ========================= */
+
+.match-main-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.action-button {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.edit-button {
+  background: #1976d2;
+  color: white;
+}
+
+.back-button {
+  background: #666;
+  color: white;
+}
+
+.delete-button {
+  background: #d32f2f;
+  color: white;
+}
+
+
+/* 次の試合 */
+
+.next-match-button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  background: #1976d2;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0 25px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+/* 試合結果 */
+
+.result-title-area {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.result-title-area h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.win-loss {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+/* 検索 */
+
+.search-area {
+  margin: 15px 0;
+}
+
+.search-area form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.search-button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   1試合ごとのカード
+   ========================= */
+
+.game-card {
+  background: white;
+  border-radius: 12px;
+  margin: 15px 0;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+/* 対戦情報 */
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.team-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.players {
+  font-size: 17px;
+  margin: 4px 0;
+}
+
+.vs {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.game-score {
+  display: block;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* 詳細・削除 */
+
+.game-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.game-detail-button {
+  flex: 1;
+  display: block;
+  text-align: center;
+  background: #1976d2;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.game-delete-button {
+  flex: 1;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 17px;
+  font-weight: bold;
+}

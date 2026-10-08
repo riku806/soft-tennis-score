@@ -10,33 +10,42 @@
 
 <% end %>
 
+
 <% @matches.each do |match| %>
 
-  <div>
+  <div class="match-card">
 
-  <%= link_to match.title, match %>
-    (<%= match.games.count %>試合）
+    <h2>
+      <%= match.title %>
+      <span class="match-count">
+        （<%= match.games.count %>試合）
+      </span>
+    </h2>
+
+    <p>
+      <strong>試合名：</strong>
+      <%= match.title %>
+    </p>
+
+    <p>
+      <strong>コート：</strong>
+      <%= match.court %>
+    </p>
+
+    <p>
+      <strong>日付：</strong>
+      <%= match.date&.strftime("%Y/%m/%d") %>
+    </p>
+
+    <%= link_to "この試合を見る",
+        match,
+        class: "match-view-button" %>
 
   </div>
-  <p>
-    <strong>試合名:</strong>
-    <%= match.title %>
-  </p>
-
-  <p>
-    <strong>コート:</strong>
-    <%= match.court %>
-  </p>
-
-<strong>日付:</strong>
-<%= match.date&.strftime("%Y/%m/%d") %>
-
-  <hr>
-  
-  <%= link_to "試合を見る", match %>
-
-  <hr>
 
 <% end %>
 
-<%= link_to "新しい試合", new_match_path %>
+
+<%= link_to "新しい試合",
+    new_match_path,
+    class: "new-match-button" %>

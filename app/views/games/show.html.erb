@@ -14,18 +14,34 @@ play_codes = {
   ],
 
   "レシーブ" => %w[
-    FRN
-    FrN
-    FRBO
-    FrSO
-    BRBO
-    BrSO
-    FRNinp
-    FrNinp
-    FRP
-    FrP
-    FRTP
-    FrtP
+  FRN
+  FrN
+  FRBO
+  FrBO
+  FRSO
+  FrSO
+
+  BRN
+  BrN
+  BRBO
+  BrBO
+  BRSO
+  BrSO
+
+  FRNinP
+  FrNinP
+  BRNinP
+  BrNinP
+
+  FRP
+  FrP
+  BRP
+  BrP
+
+  FRTP
+  FrTP
+  BRTP
+  BrTP
   ],
 
   "ストローク" => %w[
@@ -467,9 +483,10 @@ document.addEventListener("turbo:load", function() {
   // =========================
   // プレーコードを表示
   // =========================
-  function showCodes() {
+function showCodes() {
   const category = selected.category;
   const resultType = selected.result_type;
+  const serve = selected.serve;
 
   const codeButtons = document.querySelectorAll(".code-btn");
 
@@ -477,10 +494,27 @@ document.addEventListener("turbo:load", function() {
 
     const buttonCategory = button.dataset.category;
     const buttonResult = button.dataset.resultType;
+    const code = button.dataset.code;
+
+    let serveMatch = true;
+
+    // レシーブの場合
+    if (category === "レシーブ") {
+
+      if (serve === "first") {
+        // ファースト → Rが大文字
+        serveMatch = code.includes("R") && !code.includes("r");
+
+      } else if (serve === "second") {
+        // セカンド → rが小文字
+        serveMatch = code.includes("r") && !code.includes("R");
+      }
+    }
 
     if (
       buttonCategory === category &&
-      buttonResult === resultType
+      buttonResult === resultType &&
+      serveMatch
     ) {
       button.style.display = "inline-block";
     } else {
