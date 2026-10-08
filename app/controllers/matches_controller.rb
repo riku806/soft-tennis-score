@@ -42,59 +42,14 @@ class MatchesController < ApplicationController
     end
 
     # 勝敗数
-       # 勝敗数
-    if params[:q].present?
-      keyword = params[:q]
+    @wins = @games.where(
+      "p_result > q_result"
+    ).count
 
-      @wins = 0
-      @losses = 0
-
-      @games.each do |game|
-
-        p_match =
-          game.p_school.to_s.include?(keyword) ||
-          game.p_front.to_s.include?(keyword) ||
-          game.p_back.to_s.include?(keyword)
-
-        q_match =
-          game.q_school.to_s.include?(keyword) ||
-          game.q_front.to_s.include?(keyword) ||
-          game.q_back.to_s.include?(keyword)
-
-        # 検索した人がP側の場合
-        if p_match && !q_match
-
-          if game.p_result.to_i > game.q_result.to_i
-            @wins += 1
-          elsif game.q_result.to_i > game.p_result.to_i
-            @losses += 1
-          end
-
-        # 検索した人がQ側の場合
-        elsif q_match && !p_match
-
-          if game.q_result.to_i > game.p_result.to_i
-            @wins += 1
-          elsif game.p_result.to_i > game.q_result.to_i
-            @losses += 1
-          end
-
-        end
-
-      end
-
-    else
-
-      # 検索していない場合はP側を基準
-      @wins = @games.where(
-        "p_result > q_result"
-      ).count
-
-      @losses = @games.where(
-        "q_result > p_result"
-      ).count
-
-    end
+    @losses = @games.where(
+      "q_result > p_result"
+    ).count
+  end
 
   # GET /matches/new
   def new
