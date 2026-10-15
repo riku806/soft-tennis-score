@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "up" => "health#index"
   resources :games
   resources :matches
   resources :points
