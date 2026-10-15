@@ -42,27 +42,45 @@ class MatchesController < ApplicationController
     end
 
 
-    # 勝敗数
-    school = params[:q].to_s.strip
+    
+# 勝敗数
+keyword = params[:q].to_s.strip
 
-    if school.present?
-    @wins = @games.count do |game|
-      (game.p_school == school &&
-        game.p_result.to_i > game.q_result.to_i) ||
-      (game.q_school == school &&
-       game.q_result.to_i > game.p_result.to_i)
-    end
+@wins = 0
+@losses = 0
 
-    @losses = @games.count do |game|
-      (game.p_school == school &&
-        game.p_result.to_i < game.q_result.to_i) ||
-      (game.q_school == school &&
-        game.q_result.to_i < game.p_result.to_i)
+if keyword.present?
+  @games.each do |game|
+    p_names = [
+      game.p_school, game.p_front, game.p_back
+    ].compact
+
+    q_names = [
+      game.q_school, game.q_front, game.q_back
+    ].compact
+
+    p_found = p_names.any? { |name| name.include?(keyword) }
+    q_found = q_names.any? { |name| name.include?(keyword) }
+
+    # 検索した選手が片方のチームだけにいる場合に集計
+    next if p_found == q_found
+
+    p_score = game.p_result.to_i
+    q_score = game.q_result.to_i
+
+    if p_found
+      @wins += 1 if p_score > q_score
+      @losses += 1 if p_score < q_score
+    elsif q_found
+      @wins += 1 if q_score > p_score
+      @losses += 1 if q_score < p_score
     end
-    else
-      @wins = @games.where("p_result > q_result").count
-      @losses = @games.where("q_result > p_result").count
-    end
+  end
+else
+  @wins = @games.where("p_result > q_result").count
+  @losses = @games.where("q_result > p_result").count
+end
+
   end
 
   # GET /matches/new
