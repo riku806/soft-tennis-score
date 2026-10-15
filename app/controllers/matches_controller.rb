@@ -41,14 +41,28 @@ class MatchesController < ApplicationController
       )
     end
 
-    # 勝敗数
-    @wins = @games.where(
-      "p_result > q_result"
-    ).count
 
-    @losses = @games.where(
-      "q_result > p_result"
-    ).count
+    # 勝敗数
+    school = params[:q].to_s.strip
+
+    if school.present?
+    @wins = @games.count do |game|
+      (game.p_school == school &&
+        game.p_result.to_i > game.q_result.to_i) ||
+      (game.q_school == school &&
+       game.q_result.to_i > game.p_result.to_i)
+    end
+
+    @losses = @games.count do |game|
+      (game.p_school == school &&
+        game.p_result.to_i < game.q_result.to_i) ||
+      (game.q_school == school &&
+        game.q_result.to_i < game.p_result.to_i)
+    end
+    else
+      @wins = @games.where("p_result > q_result").count
+      @losses = @games.where("q_result > p_result").count
+    end
   end
 
   # GET /matches/new
