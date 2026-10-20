@@ -22,35 +22,37 @@ class MatchesController < ApplicationController
     end
   end
   # GET /matches/1 or /matches/1.json
-  def show
-    @match = Match.find(params[:id])
 
-    @games = @match.games.order(:created_at)
+def show
+  @match = Match.find(params[:id])
+  @games = @match.games.order(:created_at)
 
-    if params[:q].present?
-      keyword = "%#{params[:q]}%"
+  if params[:q].present?
+    keyword = "%#{params[:q]}%"
 
-      @games = @games.where(
-        "p_school LIKE :keyword OR
-        q_school LIKE :keyword OR
-        p_front LIKE :keyword OR
-        p_back LIKE :keyword OR
-        q_front LIKE :keyword OR
-        q_back LIKE :keyword",
-        keyword: keyword
-      )
-    end
+    @games = @games.where(
+      "p_school LIKE :keyword OR
+       q_school LIKE :keyword OR
+       p_front LIKE :keyword OR
+       p_back LIKE :keyword OR
+       q_front LIKE :keyword OR
+       q_back LIKE :keyword",
+      keyword: keyword
+    )
+  end
 
+  @wins = 0
+  @losses = 0
 
-    
-# 勝敗数
-keyword = params[:q].to_s.strip
-
-@wins = 0
-@losses = 0
-
-if keyword.present?
   @games.each do |game|
+    p_score = game.p_result.to_i
+    q_score = game.q_result.to_i
+
+    # 0-0の試合は集計しない
+    next if p_score == 0 && q_score == 0
+
+    keyword = params[:q].to_s.strip
+
     p_names = [
       game.p_school, game.p_front, game.p_back
     ].compact
@@ -59,16 +61,17 @@ if keyword.present?
       game.q_school, game.q_front, game.q_back
     ].compact
 
-    p_found = p_names.any? { |name| name.include?(keyword) }
-    q_found = q_names.any? { |name| name.include?(keyword) }
+    p_found = keyword.blank? ||
+      p_names.any? { |name| name.include?(keyword) }
 
-    # 検索した選手が片方のチームだけにいる場合に集計
-    next unless p_found || q_found
+    q_found = keyword.blank? ||
+      q_names.any? { |name| name.include?(keyword) }
 
-    p_score = game.p_result.to_i
-    q_score = game.q_result.to_i
-
-    if p_found
+    if p_found && q_found
+      # 松工対松工：P側を基準に集計
+      @wins += 1 if p_score > q_score
+      @losses += 1 if p_score < q_score
+    elsif p_found
       @wins += 1 if p_score > q_score
       @losses += 1 if p_score < q_score
     elsif q_found
@@ -76,12 +79,8 @@ if keyword.present?
       @losses += 1 if q_score < p_score
     end
   end
-else
-  @wins = @games.where("p_result > q_result").count
-  @losses = @games.where("q_result > p_result").count
 end
 
-  end
 
   # GET /matches/new
   def new
