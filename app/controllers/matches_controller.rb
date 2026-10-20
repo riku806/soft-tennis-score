@@ -42,57 +42,57 @@ def show
   end
 
   
-# 勝敗数
-@wins = 0
-@losses = 0
+  # 勝敗数
+  @wins = 0
+  @losses = 0
 
-keyword = params[:q].to_s.strip
+  keyword = params[:q].to_s.strip
 
-@games.each do |game|
-  p_score = game.p_result.to_i
-  q_score = game.q_result.to_i
+  @games.each do |game|
+    p_score = game.p_result.to_i
+    q_score = game.q_result.to_i
 
-  # 未終了の試合は集計しない
-  next if p_score == 0 && q_score == 0
+    # 未終了の試合は集計しない
+    next if p_score == 0 && q_score == 0
 
-  # 学校名が同じか判定
-  same_school = game.p_school.present? &&
-                game.p_school == game.q_school
+    # 学校名が同じか判定
+    same_school = game.p_school.present? &&
+                  game.p_school == game.q_school
 
-  # 検索対象に該当するか判定
-  p_names = [game.p_school, game.p_front, game.p_back].compact
-  q_names = [game.q_school, game.q_front, game.q_back].compact
+    # 検索対象に該当するか判定
+    p_names = [game.p_school, game.p_front, game.p_back].compact
+    q_names = [game.q_school, game.q_front, game.q_back].compact
 
-  p_found = keyword.blank? ||
-            p_names.any? { |name| name.include?(keyword) }
+    p_found = keyword.blank? ||
+              p_names.any? { |name| name.include?(keyword) }
 
-  q_found = keyword.blank? ||
-            q_names.any? { |name| name.include?(keyword) }
+    q_found = keyword.blank? ||
+              q_names.any? { |name| name.include?(keyword) }
 
-  next unless p_found || q_found
+    next unless p_found || q_found
 
-if same_school
+  if same_school
   # 同じ学校同士：両側をそれぞれ集計
-  if p_score > q_score
-    @wins += 1
-    @losses += 1
-  elsif q_score > p_score
-    @losses += 1
-    @wins += 1
-  end
-  else
-    # 他校同士：P側を基準にする
-    @wins += 1 if p_found && p_score > q_score
-    @losses += 1 if p_found && p_score < q_score
+    if p_score > q_score
+      @wins += 1
+      @losses += 1
+    elsif q_score > p_score
+      @losses += 1
+      @wins += 1
+    end
+    else
+      # 他校同士：P側を基準にする
+      @wins += 1 if p_found && p_score > q_score
+      @losses += 1 if p_found && p_score < q_score
 
-    # Q側の学校だけが検索対象の場合も、P側基準の結果を反転
-    if !p_found && q_found
-      @wins += 1 if q_score > p_score
-      @losses += 1 if q_score < p_score
+      # Q側の学校だけが検索対象の場合も、P側基準の結果を反転
+      if !p_found && q_found
+        @wins += 1 if q_score > p_score
+        @losses += 1 if q_score < p_score
+      end
     end
   end
 end
-
 
 
   # GET /matches/new
