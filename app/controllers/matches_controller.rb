@@ -63,7 +63,7 @@ if keyword.present?
     q_found = q_names.any? { |name| name.include?(keyword) }
 
     # 検索した選手が片方のチームだけにいる場合に集計
-    next if p_found == q_found
+    next unless p_found || q_found
 
     p_score = game.p_result.to_i
     q_score = game.q_result.to_i
