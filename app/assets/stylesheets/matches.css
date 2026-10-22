@@ -214,3 +214,96 @@
   }
 
 }
+
+/* 選手情報入力画面 */
+body {
+  font-size: 20px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  font-size: 22px;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="submit"] {
+  width: 100%;
+  min-height: 55px;
+  padding: 12px;
+  font-size: 22px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  margin-top: 25px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* 試合詳細画面の文字を大きくする */
+body {
+  font-size: 20px;
+}
+
+/* 試合名・場所・日付 */
+#match h1 {
+  font-size: 32px;
+}
+
+.result-title-area h2 {
+  font-size: 30px;
+}
+
+.win-loss {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* 検索欄 */
+.search-input {
+  font-size: 20px;
+  min-height: 50px;
+  padding: 10px;
+}
+
+.search-button {
+  font-size: 20px;
+  min-height: 50px;
+}
+
+/* 試合カード */
+.team-name {
+  font-size: 22px;
+}
+
+.players {
+  font-size: 19px;
+}
+
+.vs {
+  font-size: 20px;
+}
+
+.game-score {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* 詳細・削除ボタン */
+.game-detail-button,
+.game-delete-button {
+  font-size: 20px;
+  min-height: 50px;
+}
+
