@@ -10,6 +10,9 @@
 
 <% end %>
 
+<%= link_to "新しい試合",
+    new_match_path,
+    class: "new-match-button" %>
 
 <% @matches.each do |match| %>
 
@@ -46,6 +49,3 @@
 <% end %>
 
 
-<%= link_to "新しい試合",
-    new_match_path,
-    class: "new-match-button" %>
