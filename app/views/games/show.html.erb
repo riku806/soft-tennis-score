@@ -63,24 +63,28 @@ play_codes = {
   "ボレー" => %w[
     FLVP
     FLVN
+    FLVM
     FLVBO
     FLVSO
     FLVNinP
 
     BLVP
     BLVN
+    BLVM
     BLVBO
     BLVSO
     BLVNinP
 
     FVP
     FVN
+    FVM
     FVBO
     FVSO
     FVNinP
 
     BVP
     BVN
+    BVM
     BVBO
     BVSO
     BVNinP
@@ -89,6 +93,7 @@ play_codes = {
   "スマッシュ" => %w[
     smP
     smN
+    smM
     smBO
     smSO
     smNinP
@@ -97,7 +102,8 @@ play_codes = {
   "その他" => [
     "フォローミス",
     "ボディ",
-    "ダイレクト"
+    "ダイレクト",
+    "ネットタッチ"
   ]
 }
 %>
@@ -597,7 +603,7 @@ all_points = @game.points
   <%
     number = all_points.index(point) + 1
   if point.serve_number == "first"
-    marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+    marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳","㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚"]
     mark = marks[number - 1] || number
   else
     mark = number
@@ -636,7 +642,7 @@ all_points = @game.points
   <%
     number = all_points.index(point) + 1
  if point.serve_number == "first"
-  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳","㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚"]
   mark = marks[number - 1] || number
 else
   mark = number
@@ -674,7 +680,7 @@ all_points = @game.points
   <%
     number = all_points.index(point) + 1
  if point.serve_number == "first"
-  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳","㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚"]
   mark = marks[number - 1] || number
 else
   mark = number
@@ -713,7 +719,7 @@ all_points = @game.points
   <%
     number = all_points.index(point) + 1
 if point.serve_number == "first"
-  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩"]
+  marks = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳","㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚"]
   mark = marks[number - 1] || number
 else
   mark = number
@@ -769,6 +775,26 @@ end
             when 8 then "⑧"
             when 9 then "⑨"
             when 10 then "⑩"
+            when 11 then "⑪"
+            when 12 then "⑫"
+            when 13 then "⑬"
+            when 14 then "⑭"
+            when 15 then "⑮"
+            when 16 then "⑯"
+            when 17 then "⑰"
+            when 18 then "⑱"
+            when 19 then "⑲"
+            when 20 then "⑳"
+            when 21 then "㉑"
+            when 22 then "㉒"
+            when 23 then "㉓"
+            when 24 then "㉔"
+            when 25 then "㉕"
+            when 26 then "㉖"
+            when 27 then "㉗"
+            when 28 then "㉘"
+            when 29 then "㉙"
+            when 30 then "㉚"
             else result.p_gamescore
             end
 
@@ -787,6 +813,26 @@ end
             when 8 then "⑧"
             when 9 then "⑨"
             when 10 then "⑩"
+            when 11 then "⑪"
+            when 12 then "⑫"
+            when 13 then "⑬"
+            when 14 then "⑭"
+            when 15 then "⑮"
+            when 16 then "⑯"
+            when 17 then "⑰"
+            when 18 then "⑱"
+            when 19 then "⑲"
+            when 20 then "⑳"
+            when 21 then "㉑"
+            when 22 then "㉒"
+            when 23 then "㉓"
+            when 24 then "㉔"
+            when 25 then "㉕"
+            when 26 then "㉖"
+            when 27 then "㉗"
+            when 28 then "㉘"
+            when 29 then "㉙"
+            when 30 then "㉚"
             else result.q_gamescore
             end
 
