@@ -83,11 +83,30 @@
         <%= game.q_school %>
       </div>
 
-      <div class="game-score">
-        <%= game.p_result || 0 %>
-        -
-        <%= game.q_result || 0 %>
-      </div>
+
+<% result_points = game.points.where(winner: "RESULT") %>
+
+<% p_games = result_points.where("p_gamescore > q_gamescore").count %>
+<% q_games = result_points.where("q_gamescore > p_gamescore").count %>
+
+<% p_point = game.p_score.to_i %>
+<% q_point = game.q_score.to_i %>
+
+<% p_point_label = p_point %>
+<% q_point_label = q_point %>
+
+<div class="game-score">
+  <div>
+    ゲーム数：
+    <%= p_games %> - <%= q_games %>
+  </div>
+
+  <div>
+    ポイント：
+    <%= p_point_label %> - <%= q_point_label %>
+  </div>
+</div>
+
 
     </div>
 
@@ -111,3 +130,9 @@
   </div>
 
 <% end %>
+
+<script>
+  setInterval(function () {
+    window.location.reload();
+  }, 3000);
+</script>
