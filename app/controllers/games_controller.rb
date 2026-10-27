@@ -156,9 +156,9 @@ def undo
 
   if last_point
     if last_point.winner == "P"
-      @game.p_score -= 1
+      @game.p_score = [@game.p_score.to_i - 1, 0].max
     else
-      @game.q_score -= 1
+      @game.q_score = [@game.q_score.to_i - 1, 0].max
     end
 
     last_point.destroy
@@ -167,6 +167,7 @@ def undo
 
   redirect_to game_path(@game)
 end
+
 
   # GET /games/new
   def new

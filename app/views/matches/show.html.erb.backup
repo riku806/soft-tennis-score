@@ -1,0 +1,113 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @match %>
+
+<div class="match-main-actions">
+  <%= link_to "編集", edit_match_path(@match), class: "action-button edit-button" %>
+
+  <%= link_to "試合一覧に戻る",
+      matches_path,
+      class: "action-button back-button" %>
+
+  <%= button_to "削除",
+      @match,
+      method: :delete,
+      class: "action-button delete-button",
+      data: { turbo_confirm: "この試合を削除しますか？" } %>
+</div>
+
+<%= link_to "次の試合を追加",
+    players_match_path(@match),
+    class: "next-match-button" %>
+
+
+<div class="result-title-area">
+
+  <h2>試合結果</h2>
+
+  <div class="win-loss">
+    <span class="win">
+      <%= @wins %>勝
+    </span>
+
+    <span class="loss">
+      <%= @losses %>敗
+    </span>
+  </div>
+
+</div>
+
+
+<div class="search-area">
+
+  <%= form_with url: match_path(@match),
+                method: :get,
+                local: true do |f| %>
+
+    <%= f.text_field :q,
+          value: params[:q],
+          placeholder: "学校名・選手名で検索",
+          class: "search-input" %>
+
+    <%= f.submit "検索",
+          class: "search-button" %>
+
+  <% end %>
+
+</div>
+
+
+<% @games.each do |game| %>
+
+  <div class="game-card">
+
+    <div class="game-info">
+
+      <div class="team-name">
+        <%= game.p_school %>
+      </div>
+
+      <div class="players">
+        <%= game.p_back %>・<%= game.p_front %>
+      </div>
+
+      <div class="vs">
+        VS
+      </div>
+
+      <div class="players">
+        <%= game.q_back %>・<%= game.q_front %>
+      </div>
+
+      <div class="team-name">
+        <%= game.q_school %>
+      </div>
+
+      <div class="game-score">
+        <%= game.p_result || 0 %>
+        -
+        <%= game.q_result || 0 %>
+      </div>
+
+    </div>
+
+
+    <div class="game-actions">
+
+      <%= link_to "詳細を見る",
+          game_path(game),
+          class: "game-detail-button" %>
+
+      <%= button_to "削除",
+          game_path(game),
+          method: :delete,
+          class: "game-delete-button",
+          data: {
+            turbo_confirm: "この試合を削除しますか？"
+          } %>
+
+    </div>
+
+  </div>
+
+<% end %>

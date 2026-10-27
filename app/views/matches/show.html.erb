@@ -56,56 +56,56 @@
 
 </div>
 
+<div class="games-list">
+  <% @games.each do |game| %>
 
-<% @games.each do |game| %>
+    <div class="game-card">
 
-  <div class="game-card">
+      <div class="game-info">
 
-    <div class="game-info">
+        <div class="team-name">
+          <%= game.p_school %>
+        </div>
 
-      <div class="team-name">
-        <%= game.p_school %>
-      </div>
+        <div class="players">
+          <%= game.p_back %>・<%= game.p_front %>
+        </div>
 
-      <div class="players">
-        <%= game.p_back %>・<%= game.p_front %>
-      </div>
+        <div class="vs">
+          VS
+        </div>
 
-      <div class="vs">
-        VS
-      </div>
+        <div class="players">
+          <%= game.q_back %>・<%= game.q_front %>
+        </div>
 
-      <div class="players">
-        <%= game.q_back %>・<%= game.q_front %>
-      </div>
-
-      <div class="team-name">
-        <%= game.q_school %>
-      </div>
+        <div class="team-name">
+          <%= game.q_school %>
+        </div>
 
 
-<% result_points = game.points.where(winner: "RESULT") %>
+  <% result_points = game.points.where(winner: "RESULT") %>
 
-<% p_games = result_points.where("p_gamescore > q_gamescore").count %>
-<% q_games = result_points.where("q_gamescore > p_gamescore").count %>
+  <% p_games = result_points.where("p_gamescore > q_gamescore").count %>
+  <% q_games = result_points.where("q_gamescore > p_gamescore").count %>
 
-<% p_point = game.p_score.to_i %>
-<% q_point = game.q_score.to_i %>
+  <% p_point = game.p_score.to_i %>
+  <% q_point = game.q_score.to_i %>
 
-<% p_point_label = p_point %>
-<% q_point_label = q_point %>
+  <% p_point_label = p_point %>
+  <% q_point_label = q_point %>
 
-<div class="game-score">
-  <div>
-    ゲーム数：
-    <%= p_games %> - <%= q_games %>
+  <div class="game-score">
+    <div>
+      ゲーム：
+      <%= p_games %> - <%= q_games %>
+    </div>
+
+    <div>
+      ポイント：
+      <%= p_point_label %> - <%= q_point_label %>
+    </div>
   </div>
-
-  <div>
-    ポイント：
-    <%= p_point_label %> - <%= q_point_label %>
-  </div>
-</div>
 
 
     </div>
@@ -131,8 +131,10 @@
 
 <% end %>
 
+</div>
+
 <script>
   setInterval(function () {
     window.location.reload();
-  }, 3000);
+  }, 10000);
 </script>

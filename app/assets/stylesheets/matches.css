@@ -307,3 +307,55 @@ body {
   min-height: 50px;
 }
 
+
+/* 試合カードを2列で表示 */
+.games-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+/* カードをコンパクトにする */
+.games-list .game-card {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 10px;
+  margin: 0;
+}
+
+/* 学校名・選手名 */
+.games-list .game-info .team-name,
+.games-list .game-info .players,
+.games-list .game-info .vs {
+  font-size: 13px;
+  margin: 3px 0;
+  overflow-wrap: anywhere;
+}
+
+/* スコア */
+.games-list .game-score {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ボタン */
+.games-list .game-actions {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.games-list .game-detail-button {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 3px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.games-list .game-delete-button {
+  padding: 8px 5px;
+  font-size: 12px;
+}
