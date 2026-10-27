@@ -359,3 +359,19 @@ body {
   padding: 8px 5px;
   font-size: 12px;
 }
+
+
+/* ゲーム数・ポイント数を中央揃え */
+.games-list .game-score {
+  width: 100%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* スコアの各行も中央揃え */
+.games-list .game-score > div {
+  width: 100%;
+  text-align: center;
+}
