@@ -100,17 +100,14 @@
       ゲーム：
       <%= p_games %> - <%= q_games %>
     </div>
-
-    <div>
-      ポイント：
-      <%= p_point_label %> - <%= q_point_label %>
-    </div>
+<% unless game.p_result.present? || game.q_result.present? %>
+  <div>
+    ポイント：
+    <%= p_point_label %> - <%= q_point_label %>
   </div>
-
-
-    </div>
-
-
+<% end %>	
+  </div>
+	</div>
     <div class="game-actions">
 
       <%= link_to "詳細を見る",

@@ -448,25 +448,42 @@ document.addEventListener("turbo:load", function() {
       }
 
 
-      // =========================
-      // カテゴリー
-      // =========================
-      if (group === "category") {
+// =========================
+// カテゴリー
+// =========================
+if (group === "category") {
 
-        document.getElementById("result-type-area").style.display = "block";
+  document.getElementById("code-area").style.display = "none";
 
-        document.getElementById("code-area").style.display = "none";
+  // ポイント・ミスを一度リセット
+  selected.result_type = "";
 
-        // ポイント・ミスを一度リセット
-        selected.result_type = "";
+  document
+    .querySelectorAll('.select-btn[data-group="result_type"]')
+    .forEach(function(btn) {
+      btn.classList.remove("selected-btn");
+    });
 
-        document
-          .querySelectorAll('.select-btn[data-group="result_type"]')
-          .forEach(function(btn) {
-            btn.classList.remove("selected-btn");
-          });
+  if (selected.category === "その他") {
 
-      }
+    // その他はミスだけなので、ポイント・ミスを飛ばす
+    selected.result_type = "miss";
+
+    document.getElementById("result-type-area").style.display = "none";
+    document.getElementById("code-title").textContent = "その他";
+
+    showCodes();
+
+    document.getElementById("code-area").style.display = "block";
+
+  } else {
+
+    // その他以外は今までどおり
+    document.getElementById("result-type-area").style.display = "block";
+
+  }
+
+}
 
 
       // =========================
