@@ -272,14 +272,20 @@ body {
 
 /* 検索欄 */
 .search-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   font-size: 20px;
   min-height: 50px;
   padding: 10px;
 }
 
 .search-button {
+  box-sizing: border-box;
   font-size: 20px;
   min-height: 50px;
+  padding: 10px 20px;
+  white-space: nowrap;
 }
 
 /* 試合カード */
