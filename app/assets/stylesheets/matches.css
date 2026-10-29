@@ -381,3 +381,25 @@ body {
   width: 100%;
   text-align: center;
 }
+/* 試合詳細画面の検索フォーム */
+.search-area form {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-area .search-input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.search-area .search-button {
+  flex: 0 0 90px;
+  width: 90px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
