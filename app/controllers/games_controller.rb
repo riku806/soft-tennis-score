@@ -146,27 +146,51 @@ class GamesController < ApplicationController
 
   end
 
+
 def undo
   @game = Game.find(params[:id])
 
-  last_point = @game.points
-                    .where.not(winner: "RESULT")
-                    .order(:created_at)
-                    .last
+  Point.transaction do
+    # 最後に記録されたポイントを取得
+    last_point = @game.points
+                      .where.not(winner: "RESULT")
+                      .order(:id)
+                      .last
 
-  if last_point
-    if last_point.winner == "P"
-      @game.p_score = [@game.p_score.to_i - 1, 0].max
-    else
-      @game.q_score = [@game.q_score.to_i - 1, 0].max
+    if last_point
+      target_game = last_point.game_number
+
+      # そのゲームの終了記録を削除
+      @game.points.where(
+        winner: "RESULT",
+        game_number: target_game
+      ).destroy_all
+
+      # 最後の1本を削除
+      last_point.destroy!
+
+      # ゲーム番号を戻す
+      @game.current_game_number = target_game
+
+      # 得点を再計算
+      points = @game.points
+                     .where(game_number: target_game)
+                     .where.not(winner: "RESULT")
+
+      @game.p_score = points.where(winner: "P").count
+      @game.q_score = points.where(winner: "Q").count
+
+      # 試合終了状態を解除
+      @game.p_result = nil
+      @game.q_result = nil
+
+      @game.save!
     end
-
-    last_point.destroy
-    @game.save!
   end
 
   redirect_to game_path(@game)
 end
+
 
 
   # GET /games/new
